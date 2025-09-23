@@ -1,6 +1,7 @@
 package br.com.aluguelcarros.api.rest.controller;
 
-import br.com.aluguelcarros.api.domain.Cliente;
+import br.com.aluguelcarros.api.rest.dto.ClienteRequest;
+import br.com.aluguelcarros.api.rest.dto.ClienteResponse;
 import br.com.aluguelcarros.api.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,32 +23,31 @@ public class ClienteController {
     }
 
     @PostMapping
-    @Operation(summary = "Criar cliente")
-    public ResponseEntity<Cliente> criar(@Valid @RequestBody Cliente cliente) {
-        Cliente salvo = service.criar(cliente);
-        return ResponseEntity.status(201).body(salvo);
+    @Operation(summary = "Criar um novo cliente")
+    public ResponseEntity<ClienteResponse> criar(@Valid @RequestBody ClienteRequest req) {
+        return ResponseEntity.status(201).body(service.criar(req));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar cliente por ID")
-    public Cliente buscarPorId(@PathVariable Long id) {
+    public ClienteResponse buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 
     @GetMapping
-    @Operation(summary = "Listar clientes")
-    public List<Cliente> listar() {
+    @Operation(summary = "Listar todos os clientes")
+    public List<ClienteResponse> listar() {
         return service.listar();
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar cliente")
-    public Cliente atualizar(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
-        return service.atualizar(id, cliente);
+    @Operation(summary = "Atualizar cliente existente")
+    public ClienteResponse atualizar(@PathVariable Long id, @Valid @RequestBody ClienteRequest req) {
+        return service.atualizar(id, req);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Remover cliente")
+    @Operation(summary = "Remover cliente pelo ID")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         service.remover(id);
         return ResponseEntity.noContent().build();
