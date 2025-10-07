@@ -7,7 +7,6 @@ import br.com.aluguelcarros.api.rest.dto.ClienteResponse;
 import br.com.aluguelcarros.api.service.exception.ConflictException;
 import br.com.aluguelcarros.api.service.exception.NotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,11 +24,13 @@ public class ClienteService {
             throw new ConflictException("CPF já cadastrado");
 
         Cliente c = new Cliente();
+        // Campos atualizados
+        c.setNome(req.nome());
         c.setCpf(req.cpf());
         c.setRg(req.rg());
-        c.setNome(req.nome());
         c.setEndereco(req.endereco());
         c.setProfissao(req.profissao());
+        c.setRendimento(req.rendimento());
 
         return toResponse(repo.save(c));
     }
@@ -49,31 +50,36 @@ public class ClienteService {
                 .orElseThrow(() -> new NotFoundException("Cliente não encontrado"));
 
         if (!c.getCpf().equals(req.cpf()) && repo.existsByCpf(req.cpf()))
-            throw new ConflictException("CPF já cadastrado");
+            throw new ConflictException("CPF já cadastrado para outro cliente");
 
+        // Campos atualizados
+        c.setNome(req.nome());
         c.setCpf(req.cpf());
         c.setRg(req.rg());
-        c.setNome(req.nome());
         c.setEndereco(req.endereco());
         c.setProfissao(req.profissao());
+        c.setRendimento(req.rendimento());
 
         return toResponse(repo.save(c));
     }
 
     public void remover(Long id) {
-        Cliente c = repo.findById(id)
-                .orElseThrow(() -> new NotFoundException("Cliente não encontrado"));
-        repo.delete(c);
+        if (!repo.existsById(id)) {
+            throw new NotFoundException("Cliente não encontrado");
+        }
+        repo.deleteById(id);
     }
 
     private ClienteResponse toResponse(Cliente c) {
+        // Mapeamento atualizado para o DTO de resposta
         return new ClienteResponse(
                 c.getId(),
+                c.getNome(),
                 c.getCpf(),
                 c.getRg(),
-                c.getNome(),
                 c.getEndereco(),
-                c.getProfissao()
+                c.getProfissao(),
+                c.getRendimento()
         );
     }
 }
