@@ -92,12 +92,15 @@ public class PedidoAluguelService {
         if (pedido.getContratoAluguel() != null) {
             // **CORREÇÃO 4: Acesso seguro aos dados do Contrato de Aluguel**
             ContratoAluguel contratoAluguel = pedido.getContratoAluguel();
-            caResp = new ContratoAluguelResponse(
-                contratoAluguel.getId(),
-                contratoAluguel.getDataAssinatura(),
-                contratoAluguel.getValorTotal(),
-                contratoAluguel.getStatus()
-            );
+caResp = new ContratoAluguelResponse(
+    contratoAluguel.getId(),
+    contratoAluguel.getDataAssinatura(),
+    contratoAluguel.getValorTotal(),
+    contratoAluguel.getStatus(),
+    contratoAluguel.getCliente() != null ? contratoAluguel.getCliente().getId() : null,
+    contratoAluguel.getAutomovel() != null ? contratoAluguel.getAutomovel().getId() : null,
+    contratoAluguel.getBanco() != null ? contratoAluguel.getBanco().getId() : null
+);
         }
 
         return new PedidoAluguelResponse(

@@ -12,7 +12,7 @@ public record BancoRequest(
         @Size(min = 2, max = 120)
         String nome,
 
-        @Schema(example = "98765432000110")
+        @Schema(example = "11222333000181")
         @CNPJ
         String cnpj
 ) {}

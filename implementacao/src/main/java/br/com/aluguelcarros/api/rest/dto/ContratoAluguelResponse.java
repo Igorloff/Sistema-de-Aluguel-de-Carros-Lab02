@@ -6,8 +6,11 @@ import java.time.LocalDate;
 
 @Schema(description = "Representação de um Contrato de Aluguel")
 public record ContratoAluguelResponse(
-        Long id,
-        LocalDate dataAssinatura,
-        Double valorTotal,
-        ContratoAluguel.StatusContrato status
+    Long id,
+    LocalDate dataAssinatura,
+    Double valorTotal,
+    ContratoAluguel.StatusContrato status,
+    Long clienteId,
+    Long automovelId,
+    Long bancoId
 ) {}

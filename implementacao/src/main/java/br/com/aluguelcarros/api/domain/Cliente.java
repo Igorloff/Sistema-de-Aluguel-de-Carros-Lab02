@@ -2,13 +2,14 @@ package br.com.aluguelcarros.api.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "cliente")
-@PrimaryKeyJoinColumn(name = "id") // Chave para a herança
+@PrimaryKeyJoinColumn(name = "id") // Chave primária herdada de Usuario
 public class Cliente extends Usuario {
 
     @CPF
@@ -16,19 +17,25 @@ public class Cliente extends Usuario {
     private String cpf;
 
     @NotBlank
+    @Column(nullable = false, length = 20)
     private String rg;
 
     @NotBlank
     @Size(min = 3, max = 200)
+    @Column(nullable = false, length = 200)
     private String endereco;
 
     @NotBlank
     @Size(min = 2, max = 80)
+    @Column(nullable = false, length = 80)
     private String profissao;
 
+    @NotNull
     @PositiveOrZero
     @Column(nullable = false)
     private Double rendimento;
+
+    public Cliente() {}
 
     // Getters e Setters
     public String getCpf() { return cpf; }

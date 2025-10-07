@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CPF;
 
 @Schema(description = "Payload para criar/atualizar cliente")
 public record ClienteRequest(
@@ -14,7 +13,7 @@ public record ClienteRequest(
         String nome,
 
         @Schema(example = "12345678909")
-        @CPF
+        @NotBlank
         String cpf,
 
         @Schema(example = "MG1234567")
